@@ -1,16 +1,31 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
+
+<style>
+button {
+    border: none;
+    color: black;
+    background-color: transparent;
+    font-size: inherit;
+    font-family: serif;
+}
+button[disabled] {
+    text-decoration: underline;
+}
+tr a {
+    color: black;
+}
+</style>
+
 <h1>Simple Bixi</h1>
 
 <details>
 <summary>What is this?</summary>
 <p>Montreal has a badass rent-a-bike service called Bixi. Unfortunately, the Bixi official website is extremely slow, and, to my taste, so are apps like Transit. This mini-app is meant to instantaneously inform you about nearby Bixi stations. It may not work on very old phones. Make sure browser geolocation services are enabled!</p>
-<div>🍎 = link to apple maps</div>
-<div>👁 = link to google maps</div>
 </details>
-<div id="container">
 
 <p>Last updated: <span id="timestamp">N/A</span></p>
 
-</div>
+<div id="container"></div>
+
 <script src="bixi.js"></script>

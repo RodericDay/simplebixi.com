@@ -29,9 +29,9 @@ function circle(full, empty) {
 function arrow(s) {
     var [w, h, r] = [50, 50, 15];
     var [xi, yi] = [w/2, h/2];
-    return s.distance > 100 ? 'v.far' : `
+    return s.distance > 25 ? 'v.far' : `
     <svg height="${h}" viewbox="0 0 ${w} ${h}">
-    <path fill="red"
+    <path fill="cornflowerblue"
           d="M ${[xi,yi-r]} L ${[xi+r/2,yi+r]} L ${[xi, yi+3/4*r]} L ${[xi-r/2,yi+r]} z"
           transform="rotate(${s.angle} ${xi} ${yi})"
           style="opacity: 0.5"
@@ -44,9 +44,9 @@ function arrow(s) {
 }
 
 function calculateExtraProperties(s) {
-    var dx = lat - s.lat;
-    var dy = long - s.long;
-    s.distance = Math.pow(10, 6) * (dx*dx + dy*dy);
+    var dx = s.lat - lat;
+    var dy = s.long - long;
+    s.distance = Math.pow(10, 6) * (dx*dx + dy*dy) / 3.5;
     s.angle = Math.atan2(dy, dx) * (180 / Math.PI);
     return s
 }
@@ -57,13 +57,11 @@ function compareDistance(s1, s2) {
 
 function createRow(s) {
     var row = table.insertRow(0);
-    row.insertCell().innerHTML = s.name.replace(/(\(.*\))/, '')
-                .replace(/ - .+/, '')
-                .replace(/\s*\/\s*/, ' /<br/>');
-    row.insertCell().innerHTML = '<a style="text-decoration: none" href="http://maps.apple.com/?q='+ s.lat+','+s.long+'">🍎</a>';
+    var clean = s.name.replace(/(\(.*\))/, '').replace(/ - .+/, '').replace(/\s*\/\s*/, ' /<br/>')
+    row.insertCell().innerHTML = `<a href="http://maps.${localStorage.service}.com/?q=${[s.lat,s.long]}" style="text-decoration: none;">🌎</a>`;
+    row.insertCell().innerHTML = `<a href="http://maps.${localStorage.service}.com/?q=${[s.lat,s.long]}">${clean}</a>`;
     row.insertCell().innerHTML = arrow(s);
     row.insertCell().innerHTML = circle(s.bikes, s.empty);
-    row.insertCell().innerHTML = '<a style="text-decoration: none" href="http://maps.google.com/?q='+ s.lat+','+s.long+'">👁</a>';
 
 }
 
@@ -90,21 +88,64 @@ function load(event) {
         );
     }
 
-    navigator.geolocation.getCurrentPosition(update);
+    navigator.geolocation.getCurrentPosition(chain);
 }
 
-function update(position) {
+function chain(data) {
+    position = data;
     lat = position.coords.latitude;
     long = position.coords.longitude;
+    updateUi();
+}
+
+function changeService(event) {
+    localStorage.service = event.target.value;
+    updateUi();
+}
+
+function createSelect() {
+    var options = ["apple", "google"];
+    if(!options.includes(localStorage.service)) {
+        localStorage.service = options[0]
+    }
+
+    div = document.createElement("span")
+    div.innerHTML = "Map service:"
+    for(var name of options) {
+        var button = document.createElement("button");
+        button.value = name;
+        button.disabled = name === localStorage.service;
+        button.textContent = name;
+        button.onclick = changeService;
+        div.appendChild(button);
+    }
+    return div
+}
+
+function updateUi() {
+    container.innerHTML = '';
+
+    select = createSelect();
     table = document.createElement("table");
+
     stations.map(calculateExtraProperties)
             .sort(compareDistance)
             .map(createRow);
+
+    header = table.insertRow(0);
+    header.insertCell();
+    header.insertCell();
+    header.insertCell();
+    header.insertCell().innerHTML = "🚲";
+    header.innerHTML = header.innerHTML.replace(/td/g, 'th');
+
+    container.appendChild(select);
     container.appendChild(table);
 }
 
 var lat, long;
 var stations = [];
+var position = null;
 
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'latest.xml');
