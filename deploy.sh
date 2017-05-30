@@ -1,3 +1,4 @@
 source ../config.sh
 
-rsync -at --delete . roderic@$IP:/var/www/simplebixi.com
+tsc
+rsync -at --delete --exclude=.git . roderic@$IP:/var/www/simplebixi.com
