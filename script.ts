@@ -38,8 +38,8 @@ function loadXml(event) {
     });
     var lats = stationsJ.map((j)=>j.lat);
     var lons = stationsJ.map((j)=>j.long);
-    var southWest = new L.LatLng(Math.max(...lats), Math.max(...lons));
-    var northEast = new L.LatLng(Math.min(...lats), Math.min(...lons));
+    var southWest = new L.LatLng(Math.max(...lats)+0.1, Math.max(...lons)+0.1);
+    var northEast = new L.LatLng(Math.min(...lats)-0.1, Math.min(...lons)-0.1);
     map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 }
 function onLocationFound(e) {
