@@ -36,6 +36,11 @@ function loadXml(event) {
         });
         L.marker(<any>{lat:j.lat, lon:j.long}, {icon: icon}).addTo(map)
     });
+    var lats = stationsJ.map((j)=>j.lat);
+    var lons = stationsJ.map((j)=>j.long);
+    var southWest = new L.LatLng(Math.max(...lats), Math.max(...lons));
+    var northEast = new L.LatLng(Math.min(...lats), Math.min(...lons));
+    map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 }
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
@@ -54,9 +59,7 @@ function onLocationError(e) {
 //     document.body.innerHTML = arrow(50, c);
 // };
 var markerSize = 50;
-var map = L.map('map');
-map.options.minZoom = 12;
-map.options.maxZoom = 16;
+var map = L.map('map', {minZoom: 12, maxZoom: 16});
 var tileServerUrl = '/tiles/{z}/{x}/{y}.png';
 L.tileLayer(tileServerUrl).addTo(map);
 map.locate({setView: true, maxZoom: 16});
