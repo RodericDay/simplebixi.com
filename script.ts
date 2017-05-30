@@ -43,7 +43,11 @@ function onLocationFound(e) {
     L.circle(e.latlng, radius).addTo(map);
 }
 function onLocationError(e) {
-    alert(e.message);
+    if(!e.message.includes('denied')) {
+        alert(e.message);
+    }
+    map.setZoom(16);
+    map.panTo(new L.LatLng(45.514530838669, -73.568471074104));
 }
 // ondeviceorientation = (e) => {
 //     var c = e.webkitCompassHeading||0;
