@@ -36,16 +36,16 @@ function loadXml(event) {
         });
         L.marker(<any>{lat:j.lat, lon:j.long}, {icon: icon}).addTo(map)
     });
-    var lats = stationsJ.map((j)=>j.lat);
-    var lons = stationsJ.map((j)=>j.long);
-    var southWest = new L.LatLng(Math.max(...lats)+0.1, Math.max(...lons)+0.1);
-    var northEast = new L.LatLng(Math.min(...lats)-0.1, Math.min(...lons)-0.1);
-    map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 }
 function onLocationFound(e) {
-    var radius = e.accuracy / 2;
-    L.circle(e.latlng, 1).addTo(map);
-    L.circle(e.latlng, radius).addTo(map);
+    if(bounds.contains(e.latlng)) {
+        var radius = e.accuracy / 2;
+        L.circle(e.latlng, 1).addTo(map);
+        L.circle(e.latlng, radius).addTo(map);
+    }
+    else {
+        setTimeout(()=>{map.fitBounds(bounds, {animate: false})}, 1000);
+    }
 }
 function onLocationError(e) {
     if(!e.message.includes('denied')) {
@@ -60,6 +60,11 @@ function onLocationError(e) {
 // };
 var markerSize = 50;
 var map = L.map('map', {minZoom: 12, maxZoom: 16});
+var southWest = new L.LatLng(45.33443, -73.770771);
+var northEast = new L.LatLng(45.67713, -73.393524);
+var bounds = new L.LatLngBounds(southWest, northEast);
+map.fitBounds(bounds, {animate: false});
+map.setMaxBounds(bounds);
 var tileServerUrl = '/tiles/{z}/{x}/{y}.png';
 L.tileLayer(tileServerUrl).addTo(map);
 map.locate({setView: true, maxZoom: 16});
