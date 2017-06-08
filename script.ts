@@ -70,7 +70,7 @@ var bounds = new L.LatLngBounds(southWest, northEast);
 map.fitBounds(bounds, {animate: false});
 map.setMaxBounds(bounds);
 var tileServerUrl = '/tiles/{z}/{x}/{y}.png';
-L.tileLayer(tileServerUrl).addTo(map);
+L.tileLayer(tileServerUrl, {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 map.locate({setView: true, maxZoom: 16});
 map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
