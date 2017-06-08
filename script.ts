@@ -10,7 +10,8 @@ function pie(full, empty) {
         + `<circle fill="lightgray" cx="${xi}" cy="${yi}" r="${r}"/>`
         + `<path fill="red" d="M ${[xi,yi]} v ${-r} A ${[r,r,0,d,0,xf,yf]} z" />`
         + `<circle stroke="black" fill="transparent" cx="${xi}" cy="${yi}" r="${r}"/>`
-        + `<text fill="black" text-anchor="middle" x="${xi}" y="${(yi+h/10)}">${full}</text></svg>`
+        + `<text font-family="Verdana" font-size="12" text-anchor="middle" `
+        + `x="${xi}" y="${yi}" dominant-baseline="mathematical">${full}</text></svg>`
 }
 function arrow(angle) {
     var [w, h, r] = [markerSize, markerSize, 3/10 * markerSize];
