@@ -2,17 +2,14 @@
 <title>SimpleBixi</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<!-- sharing -->
 <meta property="og:title" content="SimpleBixi">
 <meta property="og:description" content="A lightweight version of the official Bixi map.">
 <meta property="og:image" content="https://simplebixi.com/bg.png">
 <meta property="og:url" content="https://simplebixi.com">
 <meta name="twitter:card" content="summary_large_image">
-<!-- PWA -->
-<link rel="apple-touch-icon" href="/icon.svg">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<!--  -->
+<link rel="apple-touch-icon" href="/icon.png">
 <link rel="icon" href="/icon.svg" />
 <link rel="stylesheet" href="/lib/leaflet.css" />
 <script src="/lib/leaflet.js"></script>
@@ -26,8 +23,18 @@ html, body, #map {
     height: 100vh;
     width: 100vw;
 }
+#locateMe {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+}
 </style>
 </head>
 <body>
 <div id="map"></div>
+<svg id="locateMe" onclick="map.locate({setView: true, maxZoom: 16});" height="40" viewBox="-10 -10 20 20">
+    <circle x="0" y="0" r="8" fill="black" />
+    <polygon points="0,-5 -4,4 0,2 4,4" fill="steelblue" />
+</svg>
 </body>

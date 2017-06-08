@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
     <circle fill="lightgray" cx="8" cy="8" r="5"/>
     <path fill="red" d="M 8,8 v -5 A 5,5,0,1,0,13,8 z" />
     <circle fill="transparent" stroke="black" cx="8" cy="8" r="5"/>
