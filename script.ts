@@ -21,7 +21,7 @@ function arrow(angle) {
 function loadXml(event) {
     var xml = xhr.responseXML;
     var stations = xml.childNodes[0];
-    var dt = +new Date() - +new Date(+stations.attributes['LastUpdate'].value);
+    var lastUpdate = +new Date() - +new Date(+stations.attributes['LastUpdate'].value);
     var stationsJ = Array.from(stations.childNodes).map((station)=>{
         var json:any = {};
         for(var child of Array.from(station.childNodes)) {
@@ -37,6 +37,7 @@ function loadXml(event) {
         });
         L.marker(<any>{lat:j.lat, lon:j.long}, {icon: icon}).addTo(map)
     });
+    document.getElementById("lastUpdate").innerHTML = `${lastUpdate/1000/60/60|0} min. ago`;
 }
 function onLocationFound(e) {
     if(bounds.contains(e.latlng)) {
@@ -55,10 +56,6 @@ function onLocationError(e) {
     map.setZoom(16);
     map.panTo(new L.LatLng(45.514530838669, -73.568471074104));
 }
-// ondeviceorientation = (e) => {
-//     var c = e.webkitCompassHeading||0;
-//     document.body.innerHTML = arrow(50, c);
-// };
 var markerSize = 50;
 var map = L.map('map', {minZoom: 12, maxZoom: 16});
 var outer = L.circle([0, 0], 1);

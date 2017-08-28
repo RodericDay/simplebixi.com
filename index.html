@@ -7,8 +7,8 @@
 <meta property="og:image" content="https://simplebixi.com/bg.png">
 <meta property="og:url" content="https://simplebixi.com">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
+<!-- <meta name="apple-mobile-web-app-status-bar-style" content="black"> -->
 <link rel="apple-touch-icon" href="/icon.png">
 <link rel="icon" href="/icon.svg" />
 <link rel="stylesheet" href="/lib/leaflet.css" />
@@ -29,6 +29,19 @@ html, body, #map {
     bottom: 0;
     margin: 20px;
 }
+#lastUpdate {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 15px;
+    padding: 5px;
+    background-color: snow;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+#lastUpdate:empty {
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -37,4 +50,5 @@ html, body, #map {
     <circle x="0" y="0" r="8" fill="black" />
     <polygon points="0,-5 -4,4 0,2 4,4" fill="steelblue" />
 </svg>
+<div id="lastUpdate"></div>
 </body>
